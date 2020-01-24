@@ -1,7 +1,7 @@
 package br.com.poupeapp.api.model;
 
 public class Postagem {
-	private int idPostagem = 0;
+	private int idPostagem;
 	private String titulo;
 	private String texto;
 	private String linkimg;
@@ -23,7 +23,6 @@ public class Postagem {
 
 	public Postagem(String titulo, String texto, String linkimg, String dataInclusao) {
 		super();
-		this.idPostagem = idPostagem;
 		this.titulo = titulo;
 		this.texto = texto;
 		this.linkimg = linkimg;
