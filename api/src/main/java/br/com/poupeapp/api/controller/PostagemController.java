@@ -33,13 +33,13 @@ public class PostagemController {
 	
 	
 	@PostMapping("/postagem/insert")
-	public ResponseEntity<Postagem> novoCliente(@RequestBody Postagem postagem) {
+	public ResponseEntity<Postagem> novoPost(@RequestBody Postagem postagem) {
 		bd.gravar(postagem);
 		return ResponseEntity.ok(postagem);
 	}
 	
 	@PutMapping("/postagem/update")
-	public ResponseEntity<String> alteraCliente(@RequestBody Postagem postagem) {
+	public ResponseEntity<String> alteraPost(@RequestBody Postagem postagem) {
 		bd.atualizar(postagem);
 		return ResponseEntity.ok("Success");
 	}

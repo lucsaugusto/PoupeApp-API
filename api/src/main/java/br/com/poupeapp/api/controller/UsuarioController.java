@@ -2,6 +2,8 @@ package br.com.poupeapp.api.controller;
 
 import br.com.poupeapp.api.database.BancoUsuarios;
 import br.com.poupeapp.api.model.Usuario;
+import br.com.poupeapp.api.model.security.Auth;
+import br.com.poupeapp.api.model.security.Token;
 
 import java.util.ArrayList;
 
@@ -32,19 +34,19 @@ public class UsuarioController {
 	
 	
 	@PostMapping("/usuario/insert")
-	public ResponseEntity<Usuario> novoCliente(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> novoUsuario(@RequestBody Usuario usuario) {
 		bd.gravar(usuario);
 		return ResponseEntity.ok(usuario);
 	}
 	
 	@PutMapping("/usuario/update")
-	public ResponseEntity<String> alteraCliente(@RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> alteraUsuario(@RequestBody Usuario usuario) {
 		bd.atualizar(usuario);
-		return ResponseEntity.ok("Success");
+		return ResponseEntity.ok(usuario);
 	}
 	
 	@DeleteMapping("/usuario/delete/{idUsuario}")
-	public ResponseEntity<String> removeCliente(@PathVariable int idUsuario){
+	public ResponseEntity<String> removeUsuario(@PathVariable int idUsuario){
 		if (bd.apagar(idUsuario)) {
 			return ResponseEntity.ok("DELETED");
 		}
@@ -53,12 +55,31 @@ public class UsuarioController {
 		}
 	}
 	
+//	@PostMapping("/usuario/login")
+//	public ResponseEntity<Usuario> autenticaUsuario(@RequestBody Usuario usuario) {
+//		ArrayList<Usuario> lista = bd.buscarTodos();
+//		for (int i = 0; i < lista.size(); i++) {
+//			if (usuario.getEmail().equals(lista.get(i).getEmail()) && usuario.getSenha().equals(lista.get(i).getSenha())) {
+//				
+//				return ResponseEntity.ok(lista.get(i));
+//			}
+//		}
+//		return ResponseEntity.status(403).build();
+//	}
+	
+	
 	@PostMapping("/usuario/login")
-	public ResponseEntity<Usuario> autentica(@RequestBody Usuario usuario) {
+	public ResponseEntity<Token> autentica(@RequestBody Usuario usuario) {
 		ArrayList<Usuario> lista = bd.buscarTodos();
 		for (int i = 0; i < lista.size(); i++) {
-			if (usuario.getEmail().equals(lista.get(i).getEmail()) && usuario.getSenha().equals(lista.get(i).getSenha())) {
-				return ResponseEntity.ok(usuario);
+			if (usuario.getEmail().equals(lista.get(i).getEmail())
+					&& usuario.getSenha().equals(lista.get(i).getSenha())) {
+				usuario = lista.get(i);
+				String tk = Auth.generateToken(usuario);
+				Token token = new Token();
+				token.setToken(tk);
+				token.setNome(lista.get(i).getNome());
+				return ResponseEntity.ok(token);
 			}
 		}
 		return ResponseEntity.status(403).build();
