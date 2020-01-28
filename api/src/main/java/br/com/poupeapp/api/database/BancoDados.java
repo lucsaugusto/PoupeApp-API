@@ -47,6 +47,24 @@ public class BancoDados {
 		}	
 	}
 	
+	
+	//Delete
+	public boolean apagar(int id) {
+		int posicao=-1;
+		for (int i=0; i< lista.size(); i++) {
+			if (lista.get(i).getIdPostagem() == id) {
+				posicao = i;
+				break;
+			}
+		}
+		if (posicao >=0) {
+			lista.remove(posicao);
+			return true;
+		}
+		return false;				
+	}
+	
+	
 	//get All
 	public ArrayList<Postagem> buscarTodos(){
 		return lista;
