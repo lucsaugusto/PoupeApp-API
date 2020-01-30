@@ -79,6 +79,8 @@ public class UsuarioController {
 				Token token = new Token();
 				token.setToken(tk);
 				token.setNome(lista.get(i).getNome());
+				token.setEmail(lista.get(i).getEmail());
+
 				return ResponseEntity.ok(token);
 			}
 		}
